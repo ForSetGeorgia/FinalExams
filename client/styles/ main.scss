@@ -1,0 +1,62 @@
+.exam_results {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    width: 100%;
+    height: 100%;
+}
+
+.exam_results {
+    section {
+        width: 70%;
+        max-width: 1000px;
+    }
+}
+
+.exam_results .highchart {
+    height: auto;
+}
+
+.exam_results .select_buttons_wrapper {
+    display: flex;
+    justify-content: space-between;
+
+    .select_buttons {}
+}
+
+.exam_results .select_buttons_wrapper .select_buttons {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+
+    button {
+        margin: 5px;
+        text-align: center;
+        opacity: 0.8;
+        transition: all 0.4s;
+
+        &:hover {
+            opacity: 1;
+        }
+    }
+
+    button.year_buttons {
+        width: 60px;
+    	background-color: rgb(247, 100, 40);
+    }
+
+    button.subject_buttons {
+        width: 180px;
+        background-color: rgb(228, 211, 30);
+    }
+
+    button.lang_buttons {
+        width: 140px;
+        background-color: rgb(241, 92, 128);
+    }
+
+    button.not-selected {
+        background-color: black;
+    }
+}
