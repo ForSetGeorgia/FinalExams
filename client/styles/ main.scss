@@ -14,7 +14,7 @@
     }
 }
 
-.exam_results .highchart {
+.exam_results .highchart_section {
     height: auto;
 }
 
@@ -29,12 +29,15 @@
     display: flex;
     justify-content: center;
     flex-wrap: wrap;
+    color: white;
 
     button {
         margin: 5px;
         text-align: center;
         opacity: 0.8;
         transition: all 0.4s;
+        background-color: rgb(65, 81, 89);
+        padding: 10px 0;
 
         &:hover {
             opacity: 1;
@@ -43,20 +46,26 @@
 
     button.year_buttons {
         width: 60px;
-    	background-color: rgb(247, 100, 40);
+
+        &.selected {
+            background-color: rgb(93, 46, 102);
+        }
     }
 
     button.subject_buttons {
-        width: 180px;
-        background-color: rgb(228, 211, 30);
+        width: 190px;
+
+        &.selected {
+            background-color: rgb(2, 90, 134);
+        }
     }
 
-    button.lang_buttons {
+    button.language_buttons {
         width: 140px;
-        background-color: rgb(241, 92, 128);
+
+        &.selected {
+            background-color: rgb(93, 46, 102);
+        }
     }
 
-    button.not-selected {
-        background-color: black;
-    }
 }

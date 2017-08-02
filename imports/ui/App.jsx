@@ -6,8 +6,6 @@ import ReactDOM from 'react-dom';
 
 import { Exams } from '../api/exams.js';
 
-import Exam from './Exam.jsx';
-
 import ExamResults from './ExamResults';
 
 // App component - represents the whole app
