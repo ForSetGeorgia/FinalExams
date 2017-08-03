@@ -1,14 +1,14 @@
 import React from 'react'
 import ReactHighmaps from 'react-highcharts'
 
-const config = (data, x_data) => {
+const config = (data, x_data, title) => {
 	return (
 		{
 		    chart: {
 		        spacingBottom: 10
 		    },
 		    title: {
-		        text: 'Average Score'
+		        text: title
 		    },
 		    yAxis: {
 		        title: {
@@ -163,7 +163,7 @@ const Average = React.createClass({
 		var	x_data =  options.year_list
 		return (
 			<div className='average'>
-				<ReactHighmaps config={config(data_average, x_data)} />
+				<ReactHighmaps config={config(data_average, x_data, 'Average Score')} />
 			</div>
 		)
 	}

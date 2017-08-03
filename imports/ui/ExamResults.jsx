@@ -2,6 +2,10 @@ import React from 'react'
 import Average from './Average'
 import Score_2016 from './Score_2016'
 
+const REMOVE_ALL = 1;
+const ADD_ELEM = 2;
+const REMOVE_ELEM = 3;
+const ADD_ALL = 4;
 
 const SelectButtons = React.createClass({
 	createSelectButtons (name_list, className, handleFunction, key) {
@@ -27,8 +31,10 @@ const SelectButtons = React.createClass({
 
 
 function toggle_to_array(curr_array, stat_array, elem, first_select) {
+	var toggle_case;
 	{/* if it is first selection, we unselect everything */}
 	if(first_select) {
+		toggle_case = REMOVE_ALL
 		curr_array.length =  0
 	}
 
@@ -40,19 +46,23 @@ function toggle_to_array(curr_array, stat_array, elem, first_select) {
 
 	var curr_index = curr_array.indexOf(elem)
 	if(curr_index >= 0) {
+		toggle_case = REMOVE_ELEM
 		curr_array.splice(curr_index, 1);
+		if(curr_array.length == 0) {
+			for(i=0; i<stat_array.length; i++){
+				curr_array.splice(i, 0, stat_array[i])
+			}
+			toggle_case = ADD_ALL
+		} 
 	} else {
+		if(toggle_case != REMOVE_ALL)
+			toggle_case = ADD_ELEM
 		stat_index = stat_array.indexOf(elem)
 		var pushed = false;
 		var i; 
 		for(i=0; i<curr_array.length; i++){
 			if(stat_array.indexOf(curr_array[i]) > stat_index){
-				if(i == 0) {
-					curr_array.splice(0, 0, elem)
-				}
-				else {
-					curr_array.splice(i, 0, elem)
-				}
+				curr_array.splice(i, 0, elem)
 				pushed = true;
 				break;
 			}
@@ -61,29 +71,28 @@ function toggle_to_array(curr_array, stat_array, elem, first_select) {
 			curr_array.push(elem)
 		}
 	}
+
+	return toggle_case
 }
 
-function toggle_clicked_classname(class_name, curr_array, elem, elem_value, first_select) {
+function toggle_clicked_classname(class_name, curr_array, elem, elem_value, toggle_case) {
 	{/* if it is first selection, we unselect everything */}
-	if(first_select) {
+	if(toggle_case == REMOVE_ALL || toggle_case == ADD_ALL) {
 		var buttons = document.getElementsByClassName(class_name)
 		for(var i = 0; i < buttons.length; i++) {
-			buttons[i].classList.remove('selected')
+			if(toggle_case == ADD_ALL) {
+				buttons[i].classList.add('selected')	
+			} else {
+				buttons[i].classList.remove('selected')
+			}
 		}
 	}
 
-	{/*
-		We check, whether the value is in current options list or not
-		If it is, we add 'selected' class to the button, 
-		If not, we remove it. 
-	*/}
-	var curr_index = curr_array.indexOf(elem_value)
-
-	if(curr_index >= 0) {
+	if(toggle_case == ADD_ELEM || toggle_case == REMOVE_ALL) {
 		elem.classList.add('selected')
-	} else {
+	} else if (toggle_case == REMOVE_ELEM){
 		elem.classList.remove('selected')
-	}
+	} 
 }
 
 
@@ -123,6 +132,7 @@ const ExamResults = React.createClass({
 		var value = event.target.getAttribute('data-filter-name')
 		var options = this.select_options
 		var first_select = false;
+		var toggle_case;
 		if(class_list.contains('year_buttons')) {
 			{/* if it is first selection, we save in states, that first selection has happened. */}
 			if(this.state.year_initial_select){
@@ -130,8 +140,8 @@ const ExamResults = React.createClass({
 				this.setState({year_initial_select: false})
 			}
 			{/* we select or unselect option from selected list */}
-			toggle_to_array(options.year_list, ExamResults.year_list, parseInt(value), first_select)
-			toggle_clicked_classname('year_buttons', options.year_list, event.target, parseInt(value), first_select)
+			toggle_case = toggle_to_array(options.year_list, ExamResults.year_list, parseInt(value), first_select)
+			toggle_clicked_classname('year_buttons', options.year_list, event.target, parseInt(value), toggle_case)
 		} else if(class_list.contains('subject_buttons')) {
 			{/* if it is first selection, we save in states, that first selection has happened. */}
 
@@ -140,8 +150,8 @@ const ExamResults = React.createClass({
 				this.setState({subject_initial_select: false})
 			}
 			{/* we select or unselect option from selected list */}
-			toggle_to_array(options.subject_list, ExamResults.subject_list, value, first_select)
-			toggle_clicked_classname('subject_buttons', options.subject_list, event.target, value, first_select)
+			toggle_case = toggle_to_array(options.subject_list, ExamResults.subject_list, value, first_select)
+			toggle_clicked_classname('subject_buttons', options.subject_list, event.target, value, toggle_case)
 		} else {
 			{/* if it is first selection, we save in states, that first selection has happened. */}
 			if(this.state.language_initial_select){
@@ -149,8 +159,8 @@ const ExamResults = React.createClass({
 				this.setState({language_initial_select: false})
 			}
 			{/* we select or unselect option from selected list */}
-			toggle_to_array(options.language_list, ExamResults.language_list, value, first_select)
-			toggle_clicked_classname('language_buttons', options.language_list, event.target, value, first_select)
+			toggle_case = toggle_to_array(options.language_list, ExamResults.language_list, value, first_select)
+			toggle_clicked_classname('language_buttons', options.language_list, event.target, value, toggle_case)
 		}
 
 		{/* After the selection, we update the highchart with updated list of options */}
