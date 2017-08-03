@@ -105,6 +105,7 @@ const get_data = (unfiltered_data, included_values, checkpoints, combined_by, fi
 	var final_data = []
 	var sum = 0, num = 0, average = 0
 	var first_iter = true;
+	var current_element;
 	unfiltered_data.map((data_elem) => {
 		{/* checks whether all values of data element are included in included_values */}
 		if(!value_is_included(included_values, data_elem)) {
