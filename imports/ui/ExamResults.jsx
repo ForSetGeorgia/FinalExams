@@ -142,6 +142,9 @@ const ExamResults = React.createClass({
 			{/* we select or unselect option from selected list */}
 			toggle_case = toggle_to_array(options.year_list, ExamResults.year_list, parseInt(value), first_select)
 			toggle_clicked_classname('year_buttons', options.year_list, event.target, parseInt(value), toggle_case)
+			if(toggle_case == ADD_ALL) {
+				this.setState({year_initial_select: true})
+			}
 		} else if(class_list.contains('subject_buttons')) {
 			{/* if it is first selection, we save in states, that first selection has happened. */}
 
@@ -152,6 +155,9 @@ const ExamResults = React.createClass({
 			{/* we select or unselect option from selected list */}
 			toggle_case = toggle_to_array(options.subject_list, ExamResults.subject_list, value, first_select)
 			toggle_clicked_classname('subject_buttons', options.subject_list, event.target, value, toggle_case)
+			if(toggle_case == ADD_ALL) {
+				this.setState({subject_initial_select: true})
+			}
 		} else {
 			{/* if it is first selection, we save in states, that first selection has happened. */}
 			if(this.state.language_initial_select){
@@ -161,6 +167,9 @@ const ExamResults = React.createClass({
 			{/* we select or unselect option from selected list */}
 			toggle_case = toggle_to_array(options.language_list, ExamResults.language_list, value, first_select)
 			toggle_clicked_classname('language_buttons', options.language_list, event.target, value, toggle_case)
+			if(toggle_case == ADD_ALL) {
+				this.setState({language_initial_select: true})
+			}
 		}
 
 		{/* After the selection, we update the highchart with updated list of options */}

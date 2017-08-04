@@ -81,11 +81,13 @@ const average_data = (data) => {
 	})
 }
 
+
+{/*needs a check*/}
 const add_in_existing_place = (data, sum, num, filter_value) => {
 	for(var i=0; i<data.length; i++){
 		if(data[i]["filter_value"] == filter_value) {
-			data[i]['num'] = num
-			data[i]['sum'] = sum
+			data[i]['num'] = data[i]['num'] + num
+			data[i]['sum'] = data[i]['sum'] + sum
 			return true
 		}
 	}
@@ -103,7 +105,7 @@ const add_in_existing_place = (data, sum, num, filter_value) => {
 const get_data = (unfiltered_data, included_values, checkpoints, combined_by, filtered_by) => {
 	var checkpoint_values = {}
 	var final_data = []
-	var sum = 0, num = 0, average = 0
+	var sum = 0, num = 0
 	var first_iter = true;
 	var current_element;
 	unfiltered_data.map((data_elem) => {
